@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define DATA 100
+#define DATA 22023547
 using namespace std;
 
 class Row{
@@ -69,18 +69,6 @@ int index(char command[])
         return 4;
     return -1;
 }
-
-/*int bracketint()
-{
-    char in[20];
-    cin >> in;
-    int len = strlen(in);
-    in[0] = '0';
-    in[len-1] = '\0';
-    int out;
-    out = atoi(in);
-    return out;
-}*/
 
 int main(int argc, char *argv[])
 {
@@ -240,15 +228,22 @@ int main(int argc, char *argv[])
         }
         cout << "********************" << endl;
         }break;
-    /*case 4:
-        for(int i=0;i<2;i++)
-            cin >> input[i];
+    case 4:{
+        cin >> input[0];
+        double theta;
+        cin >> theta;
         cout << "********************" << endl;
-        for(;;){
-            cout <<  << endl;
+        for(int j = 0; j < i ; j++){
+            if(row[j].AdID == input[0]){
+                if(((double)row[j].Click) / ((double)row[j].Impression) < theta)
+                    ;
+                else{
+                    cout << row[j].UserID << endl;
+                }
+            }
         }
         cout << "********************" << endl;
-        break;*/
+        }break;
 
 
     }
