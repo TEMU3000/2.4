@@ -169,47 +169,76 @@ int main(int argc, char *argv[])
         }
         b0++;
         //cout<<a0<<endl<<an<<endl<<b0<<endl<<bn<<endl;
-        struct ADIDnode *head = NULL;
-        struct ADIDnode *ptr = NULL;
-        int ADIDs[DATA];
+        Row property[DATA];
         int itter=0;
         for(int i = a0 ; i <= an ; i++){
             for(int j = b0 ; j <= bn ; j++){
                 if(row[i].Impression > 0 && row[j].Impression > 0 && row[i].AdID == row[j].AdID){
-                        cout<<"foundID:"<<row[i].AdID<<endl;
-                        if(head == NULL){
-                            head = (struct ADIDnode *)malloc(sizeof(struct ADIDnode));
-                            head->ID = row[i].AdID;
-                            head->next = NULL;
-                            ptr = head;
-                            itter++;
-                        }
-                        else{
-                            if(ptr->ID != row[i].AdID){
-                                struct ADIDnode *newnode = (struct ADIDnode *)malloc(sizeof(struct ADIDnode));
-                                newnode->ID = row[i].AdID;
-                                newnode->next = NULL;
-                                ptr->next = newnode;
-                                ptr = newnode;
-                                itter++;
-                            }
-                        }
+        //cout<<"foundID:"<<row[i].AdID<<endl;
+                    bool dupli=false;
+                    for(int k=0;k<itter;k++){
+                        if(property[k].AdID==row[i].AdID)
+                            dupli=true;
+                    }
+                    bool propdupli=false;
+                    for(int k=0;k<itter;k++){
+                        if(property[itter].AdvertiserID==row[i].AdvertiserID &&
+                            property[itter].KeywordID==row[i].KeywordID &&
+                            property[itter].TitleID==row[i].TitleID &&
+                            property[itter].DescriptionID==row[i].DescriptionID &&
+                            strcmp(property[itter].DisplayURL,row[i].DisplayURL) == 0)
+                                propdupli=true;
+                    }
+                    if(dupli==false){
+                        property[itter].AdID=row[i].AdID;
+                        strcpy(property[itter].DisplayURL,row[i].DisplayURL);
+                        property[itter].AdvertiserID=row[i].AdvertiserID;
+                        property[itter].KeywordID=row[i].KeywordID;
+                        property[itter].TitleID=row[i].TitleID;
+                        property[itter].DescriptionID=row[i].DescriptionID;
+                        itter++;
+                    }else if(propdupli==false){
+                        property[itter].AdID=row[i].AdID;
+                        strcpy(property[itter].DisplayURL,row[i].DisplayURL);
+                        property[itter].AdvertiserID=row[i].AdvertiserID;
+                        property[itter].KeywordID=row[i].KeywordID;
+                        property[itter].TitleID=row[i].TitleID;
+                        property[itter].DescriptionID=row[i].DescriptionID;
+                        itter++;
+                        property[itter].AdID=row[j].AdID;
+                        strcpy(property[itter].DisplayURL,row[j].DisplayURL);
+                        property[itter].AdvertiserID=row[j].AdvertiserID;
+                        property[itter].KeywordID=row[j].KeywordID;
+                        property[itter].TitleID=row[j].TitleID;
+                        property[itter].DescriptionID=row[j].DescriptionID;
+                        itter++;
+
+                    }
                 }
             }
         }
-        //cout << ptr->next << endl;
+        int newADID;
+        bool printflag=true;
         for(int i=0;i<itter;i++){
-            cout << head->ID << endl;
-        }
-        //cout << head->ID << endl;
-
-
-            /*cout << << endl;
-            for(;;){
-                cout << "\t" << << " " << << " " << << " " << << " " << << endl;
+            if(i == 0 || property[i].AdID != property[i-1].AdID){
+                cout << property[i].AdID << endl;
+                newADID = i;
             }
+            printflag = true;
+            for(int j=newADID;j<=i;j++){
+                if(property[i].AdvertiserID == property[j-1].AdvertiserID
+                && property[i].KeywordID == property[j-1].KeywordID
+                && property[i].TitleID == property[j-1].TitleID
+                && property[i].DescriptionID == property[j-1].DescriptionID
+                && strcmp(property[i].DisplayURL,property[j-1].DisplayURL) == 0)
+                    printflag=false;
 
-        cout << "********************" << endl;*/
+            }
+            if(printflag==true)
+                cout << "\t" << property[i].DisplayURL << " " << property[i].AdvertiserID << " " <<
+                property[i].KeywordID << " " << property[i].TitleID << " " << property[i].DescriptionID << endl;
+        }
+        cout << "********************" << endl;
         }break;
     /*case 4:
         for(int i=0;i<2;i++)
