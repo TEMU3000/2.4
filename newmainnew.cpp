@@ -102,12 +102,16 @@ int main(int argc, char *argv[])
         }break;
     case 2:{
         cin >> input[0];
+        int printedAd=0,printedQuery=0;
         cout << "********************" << endl;
         for(int i=0 ; row[i].UserID <= input[0] ; i++){
             if(row[i].UserID < input[0])
                 continue;
-            if(row[i].Click > 0)
+            if(row[i].Click > 0 && (row[i].AdID != printedAd || row[i].QueryID != printedQuery)){
                 cout << row[i].AdID << " " << row[i].QueryID << endl;
+                printedAd = row[i].AdID;
+                printedQuery = row[i].QueryID;
+            }
         }
         cout << "********************" << endl;
         }break;
