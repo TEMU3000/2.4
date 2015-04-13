@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
                ,&row[i].DescriptionID,&row[i].UserID);
         i++;
     }
-    cout << "READ:DONE" << endl;
+    cout << "READ:DONE\t" << i << "lines" << endl;
     /*sort userID*/
     qsort(row, i, sizeof(Row), compareUID);
     cout << "SORT:DONE" << endl;
@@ -215,15 +215,18 @@ int main(int argc, char *argv[])
         double theta;
         cin >> theta;
         cout << "********************" << endl;
+        int printedUser=-1;
         double rate;
         for(int j = 0; j < i ; j++){
             if(row[j].AdID == input[0]){
                 if(row[j].Click == 0 && row[j].Impression == 0)
                     rate = 0;
                 else
-                    rate = ((double)row[j].Click) / ((double)row[j].Impression);
-                if( rate >= theta)
+                    rate = ((double)(row[j].Click)) / ((double)(row[j].Impression));
+                if( !(rate < theta) && row[j].UserID != printedUser){
                     cout << row[j].UserID << endl;
+                    printedUser = row[j].UserID;
+                }
             }
         }
         cout << "********************" << endl;
